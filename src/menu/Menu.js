@@ -20,6 +20,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SimpleCard from '../card/SimpleCard';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { useHistory } from "react-router-dom";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import HomeIcon from '@material-ui/icons/Home';
 
 
 const drawerWidth = 240;
@@ -91,7 +94,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Menu() {
+export default function Menu({pantalla}) {
+  const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -105,7 +109,12 @@ export default function Menu() {
   };
 
   const cardView = () => (
-    <SimpleCard/>
+    <div>
+      <SimpleCard/>
+      <Fab size="small" color="primary" aria-label="add" className={classes.fab} href="/newTask">
+          <AddIcon />
+      </Fab>
+    </div>
 );
 
 
@@ -133,7 +142,7 @@ export default function Menu() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Task Planner
           </Typography>
         </Toolbar>
       </AppBar>
@@ -157,29 +166,35 @@ export default function Menu() {
         </div>
         <Divider />
         <List>
-          {[localStorage.getItem('username')].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem button key={localStorage.getItem('username')} onClick={() => history.push("/userProfile")}>
+              <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+              <ListItemText primary={localStorage.getItem('username')} />
             </ListItem>
-          ))}
+            <ListItem button key="Todo List" onClick={() => history.push("/home")}>
+              <ListItemIcon><HomeIcon /></ListItemIcon>
+              <ListItemText primary="Todo List" />
+            </ListItem>
+            <ListItem button key="New Task" onClick={() => history.push("/newTask")}>
+              <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
+              <ListItemText primary="New Task" />
+            </ListItem>
         </List>
         <Divider />
         <List>
-          {['Logout'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{<ExitToAppIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem button key="Logout">
+              <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItem>
-          ))}
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {cardView()}
-        <Fab size="small" color="primary" aria-label="add" className={classes.fab} href="/newTask">
-            <AddIcon />
-        </Fab>
+        {pantalla()}
+
+
+
+
+
       </main>
     </div>
   );
