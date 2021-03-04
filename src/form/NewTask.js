@@ -18,7 +18,7 @@ import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '
 import Fab from '@material-ui/core/Fab';
 import { useHistory } from "react-router-dom";
 import CheckIcon from '@material-ui/icons/Check';
-import { App, listaTareas }  from '../App'
+import { App, listaTareas, update}  from '../App'
 
 const currencies = [
     {
@@ -55,9 +55,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-export default function NewTask({update}) {
+// {update}
+export default function NewTask() {
 
   const history = useHistory();
   const classes = useStyles();
@@ -77,7 +76,7 @@ export default function NewTask({update}) {
   };
 
   function handleSubmit(e) {
-    const formData = new FormData(e.target);
+     const formData = new FormData(e.target);
     e.preventDefault();
     const newTask = {};
     for (let entry of formData.entries()) {
@@ -87,15 +86,19 @@ export default function NewTask({update}) {
     newTask['status'] = currency;
 
     console.log(newTask)
+
+
+
+    // App.listaTareas = listaTareas.concat(newTask);
+    // const plusTask = listaTareas.concat(newTask);
+
+    // console.log( plusTask, 'task');
     
-    const plustastk = listaTareas.concat(newTask);
 
-    console.log( plustastk, 'task');
-
-    update(plustastk);
-    localStorage.setItem("taskList", plustastk);
-    console.log(this.state.taskList, 'task');
-    // history.push("/home");
+    // update(plustastk);
+    // localStorage.setItem("taskList", plustastk);
+    // console.log(this.state.taskList, 'task');
+    history.push("/home");
   }
 
   return (

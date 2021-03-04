@@ -16,13 +16,23 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-export const listaTareas = [];
+// export const listaTareas = update;
 
-function update(ev) {
-  this.setState({
-    listaTareas: ev
-  });
-}
+const listaTareas = []
+
+export const update = function() {
+  console.log("Entre a update");
+  const task = (localStorage.getItem('tareas'))
+  if (task){
+    listaTareas.concat(task);
+    console.log(listaTareas)
+    return listaTareas;
+  }else{
+    console.log(task)
+    return [];
+  }
+};
+
 export class App extends React.Component {
   constructor(props) {
     // localStorage.setItem('taskList');
@@ -36,19 +46,14 @@ export class App extends React.Component {
     localStorage.setItem('password', 'admin');
   }
 
-  // update(ev) {
-  //   this.setState({
-  //     listaTareas: ev
-  //   });
-  // }
   
 
   render() {
 
     const cardView = () => (
       <div>
-        {this.listaTareas.map((task, i) => <SimpleCard contenido={task}/>)}
-        {/* <SimpleCard/> */}
+        <SimpleCard/>
+        {/* {listaTareas.map((task, i) => <SimpleCard contenido={task}/>)} */}
         <Fab size="small" style={{ position: 'absolute', bottom: '10%', left: '6%', }} color="primary" aria-label="add" href="/newTask">
             <AddIcon />
         </Fab>
@@ -57,7 +62,8 @@ export class App extends React.Component {
 
     const TaskView = () => (
       <div>
-        <NewTask metod={update} />
+        {/* <NewTask metod={update} /> */}
+        <NewTask/>
       </div>
     );
 
