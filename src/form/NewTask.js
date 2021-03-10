@@ -18,7 +18,6 @@ import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '
 import Fab from '@material-ui/core/Fab';
 import { useHistory } from "react-router-dom";
 import CheckIcon from '@material-ui/icons/Check';
-import { App, listaTareas, update}  from '../App'
 
 const currencies = [
     {
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // {update}
-export default function NewTask() {
+export default function NewTask({metod}) {
 
   const history = useHistory();
   const classes = useStyles();
@@ -86,6 +85,7 @@ export default function NewTask() {
     newTask['status'] = currency;
 
     console.log(newTask)
+    metod(newTask);
 
 
 
@@ -119,10 +119,10 @@ export default function NewTask() {
                 autoFocus
                 required
                 fullWidth
-                id="descripcion"
+                id="description"
                 label="Descripcion"
-                name="descripcion"
-                autoComplete="descripcion"
+                name="description"
+                autoComplete="description"
                 onChange={setDescription}
               />
             </Grid>

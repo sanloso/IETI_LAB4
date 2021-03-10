@@ -16,29 +16,23 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-// export const listaTareas = update;
-
-const listaTareas = []
-
-export const update = function() {
-  console.log("Entre a update");
-  const task = (localStorage.getItem('tareas'))
-  if (task){
-    listaTareas.concat(task);
-    console.log(listaTareas)
-    return listaTareas;
-  }else{
-    console.log(task)
-    return [];
-  }
-};
 
 export class App extends React.Component {
   constructor(props) {
-    // localStorage.setItem('taskList');
     super(props);
+    
+    this.update = this.update.bind(this);
+    // const auxList = JSON.parse(localStorage.getItem(''))
 
-    console.log(listaTareas, "APP");
+    if(!localStorage.getItem('listaTareas')){
+      console.log("Entre al if")
+      console.log(localStorage.getItem('listaTareas'), 'If localStorage');
+      this.state = { listaTareas: [] };
+    }else{
+      console.log("Entre al else")
+      this.state = { listaTareas: JSON.parse(localStorage.getItem('listaTareas')) };
+    }
+
     if (!localStorage.getItem('isLoggedIn')){
       localStorage.setItem('isLoggedIn', false);
     }
@@ -46,14 +40,21 @@ export class App extends React.Component {
     localStorage.setItem('password', 'admin');
   }
 
+  update(tarea){
+    const aux = this.state.listaTareas.concat(tarea);
+    localStorage.setItem('listaTareas', JSON.stringify(aux));
+    console.log(aux, 'auxiliar');
+    console.log(localStorage.getItem('listaTareas'), 'listaTareas localStorage');
+    this.setState({listaTareas: aux });
+    console.log(this.state.listaTareas, 'listaTareas State');
+  }
   
 
   render() {
 
     const cardView = () => (
       <div>
-        <SimpleCard/>
-        {/* {listaTareas.map((task, i) => <SimpleCard contenido={task}/>)} */}
+        {this.state.listaTareas.map((task, i) => <SimpleCard key={i}  contenido={task}/>)}
         <Fab size="small" style={{ position: 'absolute', bottom: '10%', left: '6%', }} color="primary" aria-label="add" href="/newTask">
             <AddIcon />
         </Fab>
@@ -62,8 +63,7 @@ export class App extends React.Component {
 
     const TaskView = () => (
       <div>
-        {/* <NewTask metod={update} /> */}
-        <NewTask/>
+        <NewTask metod={this.update} />
       </div>
     );
 

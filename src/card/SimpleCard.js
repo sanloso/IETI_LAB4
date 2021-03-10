@@ -50,7 +50,7 @@ function getModalStyle() {
 }
 
 // {contenido}
-export default function SimpleCard() {
+export default function SimpleCard({contenido}) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -72,15 +72,15 @@ export default function SimpleCard() {
 
   const bull = <span className={classes.bullet}>•</span>;
 
-  const contenido =  {
-  	"description": "some description text ",
-  	"responsible": {
-  		"name": "Santiago Carrillo",
-  		"email": "sancarbar@gmail"
-  	},
-  	"status": "ready",
-  	"dueDate": 156464645646
-  }
+  // const contenido =  {
+  // 	"description": "some description text ",
+  // 	"responsible": {
+  // 		"name": "Santiago Carrillo",
+  // 		"email": "sancarbar@gmail"
+  // 	},
+  // 	"status": "ready",
+  // 	"dueDate": 156464645646
+  // }
 
   return (
     <div>
@@ -94,7 +94,7 @@ export default function SimpleCard() {
               {contenido.status}  -   {new Date(contenido.dueDate).toLocaleDateString()}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              {contenido.responsible.name}
+              {contenido.responsible}
             </Typography>
           </CardContent>
         </Card>
